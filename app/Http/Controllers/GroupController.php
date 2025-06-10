@@ -95,7 +95,9 @@ class GroupController extends Controller
   
 
         return inertia('Groups/Show', [
-            'group' => $group,
+            'group' => array_merge($group->toArray(), [
+                'i_am_admin' => $players->firstWhere('user_id', Auth::id())->is_admin ?? false,
+            ]),
             'players' => $players,
             'invite_code' => $invite_code,
         ]);

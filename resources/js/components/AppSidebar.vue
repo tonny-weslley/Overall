@@ -40,11 +40,6 @@ const footerNavItems: NavItem[] = [
         href: route('use-code'),
         icon: QrCode,
     },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
-    },
 ];
 </script>
 

@@ -44,4 +44,27 @@ class AppController extends Controller
 
         return redirect()->route('groups.index')->with('success', 'Invite code used successfully.');
     }
+
+    public function exitGroup(Request $request)
+    {
+        $groupId = $request->input('group_id');
+        $player = Player::where('user_id', Auth::id())->first();
+
+        if (!$player) {
+            return redirect()->back()->withErrors(['player' => 'Player not found.']);
+        }
+
+        $playerGroup = PlayerGroup::where('player_id', $player->id)
+            ->where('group_id', $groupId)
+            ->first();
+
+        if (!$playerGroup) {
+            return redirect()->back()->withErrors(['group' => 'You are not a member of this group.']);
+        }
+
+        $playerGroup->delete();
+
+        return redirect()->route('groups.index')->with('success', 'You have exited the group successfully.');
+    }
+    
 }

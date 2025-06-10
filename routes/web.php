@@ -31,5 +31,9 @@ Route::post('use-invite-code', [AppController::class, 'useInviteCode'])
     ->middleware(['auth', 'verified'])
     ->name('use-invite-code');
 
+Route::post('exit-group', [AppController::class, 'exitGroup'])
+    ->middleware(['auth', 'verified'])
+    ->name('exit-group');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

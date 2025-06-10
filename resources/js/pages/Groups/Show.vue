@@ -71,12 +71,26 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </TabsContent>
                 <TabsContent value="settings">
                     <p>Group Settings</p>
-                    <form :action="route('groups.destroy', props.group)" method="post" @submit.prevent="$inertia.delete(route('groups.destroy', props.group))">
+                    <form :action="route('exit-group', {
+                        group_id: props.group.id,
+                    })" method="post" @submit.prevent="$inertia.post(route('exit-group', {
+                        group_id: props.group.id,
+                    }))">
+                        <input type="hidden" name="_method" value="post" />
+                        <Button variant="destructive" class="mt-4" type="submit">
+                            Exit Group
+                        </Button>
+                    </form>
+                    <form v-if="props.group.admin" :action="route('groups.destroy', props.group)" method="post" @submit.prevent="$inertia.delete(route('groups.destroy', props.group))">
                         <input type="hidden" name="_method" value="delete" />
                         <Button variant="destructive" class="mt-4" type="submit">
                             Delete Group
                         </Button>
                     </form>
+
+                    <pre>
+                        {{ JSON.stringify(props.group, null, 2) }}
+                    </pre>
                 </TabsContent>
             </Tabs>
         </main>
