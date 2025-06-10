@@ -65,8 +65,12 @@ class GroupController extends Controller
             'group_id' => $group->id,
             'is_admin' => true,
         ]);
+        do {
+            $code = rand(1000000000, 9999999999);
+        } while (Invite::where('code', $code)->exists());
+
         Invite::create([
-            'code' => rand(1000000000, 9999999999), // Generate a random 10-digit code
+            'code' => $code,
             'group_id' => $group->id,
         ]);
 
