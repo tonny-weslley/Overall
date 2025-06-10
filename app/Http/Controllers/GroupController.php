@@ -83,7 +83,14 @@ class GroupController extends Controller
     public function show(Group $group)
     {
         $players_groups = PlayerGroup::where('group_id', $group->id)->with('player.user')->get();
-        $players = Player::whereIn('id', $players_groups->pluck('player_id'))->get();
+
+        // Map players and add is_admin property
+        $players = $players_groups->map(function ($playerGroup) {
+            $player = $playerGroup->player;
+            $player->is_admin = $playerGroup->is_admin;
+            return $player;
+        });
+
         $invite_code = Invite::where('group_id', $group->id)->first();
   
 
@@ -121,4 +128,6 @@ class GroupController extends Controller
 
         return redirect()->route('groups.index')->with('success', 'Group deleted successfully.');
     }
+
+    
 }

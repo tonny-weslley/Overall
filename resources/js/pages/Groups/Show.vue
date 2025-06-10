@@ -66,7 +66,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <TabsContent value="players">
                     <p>Players in this group:</p>
                     <ul>
-                        <li v-for="player in props.players" :key="player.id">{{ player.name }} ({{ player.favorite_number }})</li>
+                        <li v-for="player in props.players" :key="player.id">{{ player.name }} ({{ player.favorite_number }}) <span v-if="player.is_admin">[ADMIN]</span></li>
                     </ul>
                 </TabsContent>
                 <TabsContent value="settings">
