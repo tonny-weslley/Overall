@@ -59,7 +59,7 @@ class GroupController extends Controller
             'is_admin' => true,
         ]);
 
-        return redirect()->route('groups.show', $group)->with('success', 'Group created successfully.');
+        return redirect()->route('groups.index')->with('success', 'Group created successfully.');
     }
 
     /**
@@ -67,7 +67,9 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        return inertia('Groups/Show', [
+            'group' => $group,
+        ]);
     }
 
     /**
@@ -75,7 +77,9 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        return inertia('Groups/Edit', [
+            'group' => $group,
+        ]);
     }
 
     /**
