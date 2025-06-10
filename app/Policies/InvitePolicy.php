@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Group;
+use App\Models\Invite;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class GroupPolicy
+class InvitePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class GroupPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Group $group): bool
+    public function view(User $user, Invite $invite): bool
     {
         return false;
     }
@@ -29,20 +29,13 @@ class GroupPolicy
      */
     public function create(User $user): bool
     {
-        return true;
-    }
-
-    public function store(User $user): bool
-    {
-        // This method can be used to check if the user can store a new group.
-        // For now, we assume any authenticated user can create a group.
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Group $group): bool
+    public function update(User $user, Invite $invite): bool
     {
         return false;
     }
@@ -50,21 +43,15 @@ class GroupPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Group $group): bool
+    public function delete(User $user, Invite $invite): bool
     {
-
-        dd('Checking if user can delete group');
-        $is_group_admin = $group->playerGroups()
-            ->where('player_id', $user->player->id)
-            ->where('is_admin', true)
-            ->exists();
-        return $is_group_admin;
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Group $group): bool
+    public function restore(User $user, Invite $invite): bool
     {
         return false;
     }
@@ -72,7 +59,7 @@ class GroupPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Group $group): bool
+    public function forceDelete(User $user, Invite $invite): bool
     {
         return false;
     }

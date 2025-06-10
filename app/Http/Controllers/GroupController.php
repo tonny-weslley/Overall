@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
+use App\Models\Invite;
 use App\Models\Player;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PlayerGroup;
@@ -22,10 +23,16 @@ class GroupController extends Controller
         return redirect()->back()->withErrors(['player' => 'Player not found.']);
     }
 
-    $player_groups = PlayerGroup::where('player_id', $player->id)->with('group')->get();
+    $player_groups = PlayerGroup::where('player_id', $player->id)
+        ->whereHas('group', function ($query) {
+            $query->whereNull('deleted_at');
+        })
+        ->with('group')
+        ->get();
 
     // Extrai os grupos diretamente
     $groups = $player_groups->pluck('group');
+
 
     return inertia('Groups/Index', [
         'groups' => $groups,
@@ -58,6 +65,10 @@ class GroupController extends Controller
             'group_id' => $group->id,
             'is_admin' => true,
         ]);
+        Invite::create([
+            'code' => rand(1000000000, 9999999999), // Generate a random 10-digit code
+            'group_id' => $group->id,
+        ]);
 
         return redirect()->route('groups.index')->with('success', 'Group created successfully.');
     }
@@ -67,8 +78,15 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
+        $players_groups = PlayerGroup::where('group_id', $group->id)->with('player.user')->get();
+        $players = Player::whereIn('id', $players_groups->pluck('player_id'))->get();
+        $invite_code = Invite::where('group_id', $group->id)->first();
+  
+
         return inertia('Groups/Show', [
             'group' => $group,
+            'players' => $players,
+            'invite_code' => $invite_code,
         ]);
     }
 
@@ -95,6 +113,8 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $group->delete();
+
+        return redirect()->route('groups.index')->with('success', 'Group deleted successfully.');
     }
 }
