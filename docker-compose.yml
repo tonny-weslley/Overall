@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: ./app       # <--- app contém o código do Laravel
+      dockerfile: ../docker/App/Dockerfile
+    volumes:
+      - ./app:/usr/src/app
+    ports:
+      - "8000:8000"
