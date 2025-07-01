@@ -11,3 +11,8 @@ WORKDIR /usr/src/app
 
 RUN composer global require laravel/installer
 ENV PATH="/root/.composer/vendor/bin:${PATH}"
+
+CMD ["composer", "install"]
+CMD ["npm", "install"]
+CMD ["php", "artisan", "key:generate"]
+CMD ["php", "artisan", "migrate"]
