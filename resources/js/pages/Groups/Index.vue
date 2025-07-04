@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { Plus } from 'lucide-vue-next';
 
-import GroupsTable from '@/components/design/GroupsTable.vue';
+// import GroupsTable from '@/components/design/GroupsTable.vue';
+import GroupCard from './components/GroupCard.vue';
+import CreateGroupCard from './components/CreateGroupCard.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,13 +27,16 @@ const props = defineProps({
         </template>
 
         <main class="space-y-6 p-6">
-            <Button>
+            <!-- <Button>
                 <a :href="route('groups.create')" class="flex items-center gap-1 align-middle"> <Plus /> Create new Group</a>
-            </Button>
+            </Button> -->
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <GroupsTable v-for="grupo in groups" :group="grupo" :key="grupo.id" />
+              <GroupCard v-for="grupo in props.groups" :key="grupo.id" :group="grupo" />
+              <CreateGroupCard/>
             </div>
+
+
         </main>
     </AppLayout>
 </template>

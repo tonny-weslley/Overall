@@ -22,10 +22,8 @@ const handleSubmit = () => {
   form.post(route('groups.store'), {
     onSuccess: () => {
       form.reset();
-      // Optionally redirect or show a success message
     },
     onError: (errors) => {
-      // Handle errors if needed
       console.error(errors);
     },
   });
@@ -35,7 +33,7 @@ const handleSubmit = () => {
 <template>
   <Head title="Create Group" />
   <AppLayout :breadcrumbs="breadcrumbs">
-    <div class="flex flex-col px-6 py-8 space-y-6 max-w-2xl mx-auto">
+    <div class="flex flex-col px-6 py-8 space-y-6 w-2xl mx-auto">
       <h1 class="text-2xl font-semibold tracking-tight">Create New Group</h1>
 
       <form @submit.prevent="handleSubmit" class="space-y-6">

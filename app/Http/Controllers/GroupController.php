@@ -92,9 +92,9 @@ class GroupController extends Controller
         });
 
         $invite_code = Invite::where('group_id', $group->id)->first();
-  
 
-        return inertia('Groups/Show', [
+
+        return inertia('Groups-show/index', [
             'group' => array_merge($group->toArray(), [
                 'i_am_admin' => $players->firstWhere('user_id', Auth::id())->is_admin ?? false,
             ]),
@@ -131,5 +131,5 @@ class GroupController extends Controller
         return redirect()->route('groups.index')->with('success', 'Group deleted successfully.');
     }
 
-    
+
 }
